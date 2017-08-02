@@ -6,8 +6,13 @@
 #Build the image based on Ubuntu
 FROM ubuntu:14.04
 
+#Maintainer and author
+MAINTAINER Magdalena Arnal <marnal@imim.es>
+
 #Install required libraries in ubuntu
-RUN apt-get update && apt-get install --yes wget unzip python
+RUN apt-get update -y && apt-get install -y \
+    wget git unzip bzip2 g++ make zlib1g-dev ncurses-dev python default-jdk default-jre libncurses5-dev \
+    libbz2-dev liblzma-dev
 #Set wokingDir in /bin
 WORKDIR /bin
 
@@ -18,20 +23,18 @@ RUN tar zxvf cufflinks-2.2.1.Linux_x86_64.tar.gz
 #Clean
 RUN rm cufflinks-2.2.1.Linux_x86_64.tar.gz
 
-#Install and Configure samtools
+#Download Samtools from GitHub
 RUN wget http://github.com/samtools/samtools/releases/download/1.5/samtools-1.5.tar.bz2
-RUN tar jxf samtools-1.5.tar.bz2
-RUN cd samtools-1.5
+RUN tar --bzip2 -xf samtools-1.5.tar.bz2
+WORKDIR /bin/samtools-1.5
 RUN ./configure
 RUN make
 RUN rm /bin/samtools-1.5.tar.bz2
 
-#Add Cufflinks to the path variable
+#Add Cufflinks and samtools to the path variable
 ENV PATH $PATH:/bin/cufflinks-2.2.1.Linux_x86_64
 ENV PATH $PATH:/bin/samtools-1.5
 
-#Remove no installed packages wget and unzip
-RUN apt-get purge --yes wget unzip
-
-#Set the default Working Directory
+#Set the user and default Working Directory
+USER 1001:1001
 WORKDIR /
