@@ -9,8 +9,11 @@ FROM ubuntu:14.04
 #Maintainer and author
 MAINTAINER Magdalena Arnal <marnal@imim.es>
 
-#Install required libraries in ubuntu
-RUN apt-get update -y && apt-get install -y wget
+#Update and install packages wget, unzip and python
+RUN apt-get update -y && apt-get install -y \
+    wget git unzip bzip2 g++ make zlib1g-dev ncurses-dev python default-jdk default-jre libncurses5-dev \
+    libbz2-dev liblzma-dev
+
 #Set wokingDir in /bin
 WORKDIR /bin
 
