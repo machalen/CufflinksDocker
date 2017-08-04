@@ -45,4 +45,3 @@ WORKDIR $HOME
 
 #USER i clean
 USER 1001:1001
-RUN apt-get clean
