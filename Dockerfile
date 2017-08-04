@@ -10,9 +10,7 @@ FROM ubuntu:14.04
 MAINTAINER Magdalena Arnal <marnal@imim.es>
 
 #Install required libraries in ubuntu
-RUN apt-get update -y && apt-get install -y \
-    wget git unzip bzip2 g++ make zlib1g-dev ncurses-dev python default-jdk default-jre libncurses5-dev \
-    libbz2-dev liblzma-dev
+RUN apt-get update -y && apt-get install -y wget
 #Set wokingDir in /bin
 WORKDIR /bin
 
@@ -35,6 +33,13 @@ RUN rm /bin/samtools-1.5.tar.bz2
 ENV PATH $PATH:/bin/cufflinks-2.2.1.Linux_x86_64
 ENV PATH $PATH:/bin/samtools-1.5
 
-#Set the user and default Working Directory
+#Obtenir els permisos de USER del Wor
+ENV HOME /home/marnal
+RUN useradd --create-home --home-dir $HOME 1001
+RUN chmod -R u+rwx $HOME
+RUN chown -R 1001:1001 $HOME
+WORKDIR $HOME
+
+#USER i clean
 USER 1001:1001
-WORKDIR /
+RUN apt-get clean
