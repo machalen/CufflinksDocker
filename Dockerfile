@@ -24,7 +24,7 @@ RUN tar zxvf cufflinks-2.2.1.Linux_x86_64.tar.gz
 #Clean
 RUN rm cufflinks-2.2.1.Linux_x86_64.tar.gz
 
-#Download Samtools from GitHub
+#Download samtools from GitHub
 RUN wget http://github.com/samtools/samtools/releases/download/1.5/samtools-1.5.tar.bz2
 RUN tar --bzip2 -xf samtools-1.5.tar.bz2
 WORKDIR /bin/samtools-1.5
@@ -36,12 +36,5 @@ RUN rm /bin/samtools-1.5.tar.bz2
 ENV PATH $PATH:/bin/cufflinks-2.2.1.Linux_x86_64
 ENV PATH $PATH:/bin/samtools-1.5
 
-#Obtenir els permisos de USER del Wor
-ENV HOME /home/marnal
-RUN useradd --create-home --home-dir $HOME 1001
-RUN chmod -R u+rwx $HOME
-RUN chown -R 1001:1001 $HOME
-WORKDIR $HOME
-
-#USER i clean
-#USER 1001:1001
+#Set the default Working Directory
+WORKDIR /
